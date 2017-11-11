@@ -16,3 +16,8 @@ countTheBeforeVowel = fst . (foldl countHelp (0, False)) . words
         (count + 1, False)
       else
         (count, isNothing $ notThe word)
+
+countVowels :: String -> Integer
+countVowels = fromIntegral . length . filter isVowel
+  where
+    isVowel = flip elem "aeiou"
