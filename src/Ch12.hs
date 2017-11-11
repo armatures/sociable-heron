@@ -21,3 +21,24 @@ countVowels :: String -> Integer
 countVowels = fromIntegral . length . filter isVowel
   where
     isVowel = flip elem "aeiou"
+
+
+newtype Word' =
+  Word' String
+  deriving (Eq, Show)
+
+mkWord :: String -> Maybe Word'
+mkWord word =
+  if vowels > consonants then
+    Nothing
+  else
+    Just $ Word' word
+  where
+    (vowels, consonants) = foldl countVowelsAndConsonants (0,0) word
+
+countVowelsAndConsonants :: (Int, Int) -> Char -> (Int, Int)
+countVowelsAndConsonants (vowels,consonants) x =
+  if elem x "aeiou" then
+    (vowels+1, consonants)
+  else
+    (vowels, consonants+1)
