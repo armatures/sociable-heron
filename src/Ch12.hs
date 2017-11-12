@@ -2,7 +2,13 @@ module Ch12 where
 import Data.Maybe
 
 replaceThe:: String -> String
-replaceThe = unwords . map (fromMaybe "a" . notThe) . words
+replaceThe = unwords . replaceThe' . words
+
+replaceThe':: [String] -> [String]
+replaceThe' [] = []
+replaceThe' (x:xs) = case notThe x of
+  Nothing -> "a":(replaceThe' xs)
+  Just y -> y:(replaceThe' xs)
 
 notThe:: String -> Maybe String
 notThe s | s == "the" = Nothing
@@ -16,6 +22,7 @@ countTheBeforeVowel = fst . (foldl countHelp (0, False)) . words
         (count + 1, False)
       else
         (count, isNothing $ notThe word)
+
 
 countVowels :: String -> Integer
 countVowels = fromIntegral . length . filter isVowel
