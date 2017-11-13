@@ -6,9 +6,8 @@ replaceThe = unwords . replaceThe' . words
 
 replaceThe':: [String] -> [String]
 replaceThe' [] = []
-replaceThe' (x:xs) = case notThe x of
-  Nothing -> "a":(replaceThe' xs)
-  Just y -> y:(replaceThe' xs)
+replaceThe' (x:xs) =
+    fromMaybe "a" (notThe x) : replaceThe' xs
 
 notThe:: String -> Maybe String
 notThe s | s == "the" = Nothing
