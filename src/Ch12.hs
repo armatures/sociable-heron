@@ -75,3 +75,6 @@ unfold f x =
   case f x of
     Nothing -> Leaf
     Just (m,n,o) -> Node (unfold f m) n (unfold f o)
+
+treeBuild :: Integer -> BinaryTree Integer
+treeBuild n = unfold (\x -> if x < n then Just (x+1,x,x+1) else Nothing) 0
