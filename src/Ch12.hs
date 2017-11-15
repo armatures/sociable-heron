@@ -14,14 +14,15 @@ notThe s | s == "the" = Nothing
          | otherwise = Just s
 
 countTheBeforeVowel :: String -> Integer
-countTheBeforeVowel = fst . (foldl countHelp (0, False)) . words
-  where
-    countHelp (count, isFollowingThe) word =
-      if isFollowingThe && elem (head word) "aeiou" then
-        (count + 1, False)
-      else
-        (count, isNothing $ notThe word)
+countTheBeforeVowel = countHelp . words
 
+countHelp :: [String] -> Integer
+countHelp (x:x':xs) =
+  if isNothing (notThe x) && elem (head x') "aeiou" then
+    1 + countHelp xs
+  else
+    countHelp xs
+countHelp _ = 0
 
 countVowels :: String -> Integer
 countVowels = fromIntegral . length . filter isVowel
